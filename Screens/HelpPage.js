@@ -1,59 +1,77 @@
 import React from "react";
 import {Text, View, StyleSheet, ScrollView, Image, TextInput, TouchableOpacity} from 'react-native';
-import '../Assets/images/fb.png';
-import Unfold from 'react-native-vector-icons/AntDesign';
+import BackIcon from 'react-native-vector-icons/Entypo';
+import Fold from 'react-native-vector-icons/AntDesign';
 
-const HelpPage = ({navigation})=>{
-
+const HelpPage = ({navigation})=>{  
     return(
         <ScrollView style={styles.scrollView}>
+        <View style={styles.mainView}>
             <View style = {styles.topView}>
-                <Unfold style = {styles.menuImage} name = 'menu-fold' size = {40} />
-                    <Image style={styles.imageStyle} source={require('../Assets/images/fb.png')}/>
+                <Fold style = {styles.menuImage} name = 'menu-fold' size = {40} />
+                <Image style={styles.imageStyle} source={require('../Assets/images/fb.png')}/>
             </View>
-            <View style = {styles.buttonView}>
-                <TouchableOpacity style={styles.buttonStyle} onPress = {() => navigation.navigate('Sign Up')}>
-                    <Text style={styles.buttonText}> Get Help Now </Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.buttonStyle} onPress = {() => navigation.navigate('Sign Up')}>
-                    <Text style={styles.buttonText}> View Tickets </Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.buttonStyle} onPress = {() => navigation.navigate('Sign Up')}>
-                    <Text style={styles.buttonText}> Security Training </Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.buttonStyle} onPress = {() => navigation.navigate('Sign Up')}>
-                    <Text style={styles.buttonText}> How To's </Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.buttonStyle} onPress = {() => navigation.navigate('Sign Up')}>
-                    <Text style={styles.buttonText}> My Account </Text>
-                </TouchableOpacity>
-            </View> 
+            <View style = {styles.titleView}>
+                <Text style = {styles.titleText}>Get Help Now</Text>
+            </View>
+            <View style={styles.bottomView}>
+                <View>
+                <TextInput multiline style={styles.TextInput}/>
+                    <View style={styles.buttonView}>
+                    <TouchableOpacity style={styles.signUpButton}>
+                        <Text style={styles.buttonText}> Submit Ticket </Text>
+                    </TouchableOpacity>
+                    </View>
+                </View>
+            </View>
+        </View>
         </ScrollView>
     )
 }
 
 const styles = StyleSheet.create({
-    topView:{
+    mainView:{
+        marginTop: 30,
         flex:1,
-        flexDirection:'row',
+        flexDirection:'column',
         justifyContent:'center',
-        alignItems: 'center',
-        width: '100%',
-        marginTop: -30,
-
-
-    },
-    imageStyle:{
-        width: '70%',
-        resizeMode: 'contain',
-        
-        
+        alignItems:'center'
       },
-    menuImage:{
-        width: '15%',
-        marginRight: 10,
-    },
-    buttonStyle:{
+      topView:{
+        height: '15%',
+        width:'100%',
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+
+      },
+      imageStyle:{
+        width: '90%',
+        resizeMode: 'contain',
+      },
+      titleView:{
+        heigh: '15%',
+        marginTop: 30,
+      },
+      titleText:{
+        fontSize: 45,
+        fontWeight: 'bold'
+      },
+      bottomView:{
+        marginTop: 20,
+        height: '70%',
+        width: '90%',
+      },
+      TextInput:{
+        borderWidth: 2,
+        borderColor: '#000',
+        borderRadius: 10,
+        color: '#000',
+        minHeight: 300,
+        textAlignVertical: 'top',
+      },
+      signUpButton:{
         width: '90%',
         color: '#000',
         height: 50,
@@ -62,21 +80,23 @@ const styles = StyleSheet.create({
         marginTop:20,
         display: 'flex',
         justifyContent: 'center',
+        alignItems: 'center',   
+      },
+      buttonView:{
+        margin: 10,
+        flex:1,
+        flexDirection:'column',
+        justifyContent:'center',
         alignItems: 'center',
-
-        
       },
       buttonText:{
         fontSize: 20,
         fontWeight: 'bold',
         color: '#000',
-      },
-      buttonView:{
-        flex:1,
-        flexDirection:'column',
-        justifyContent:'center',
-        alignItems: 'center',
-        
-      },
-  })
+      }
+      
+
+})
+
+
 export default HelpPage
