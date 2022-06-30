@@ -1,7 +1,6 @@
 import React from "react";
 import {Text, View, StyleSheet, ScrollView, Image, TextInput, TouchableOpacity} from 'react-native';
 import '../Assets/images/fb.png';
-import Unfold from 'react-native-vector-icons/AntDesign';
 
 const LandingPage = ({navigation})=>{
 
@@ -14,16 +13,16 @@ const LandingPage = ({navigation})=>{
                 <TouchableOpacity style={styles.buttonStyle} onPress = {() => navigation.navigate('Help Page')}>
                     <Text style={styles.buttonText}> Get Help Now </Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.buttonStyle} onPress = {() => navigation.navigate('Sign Up')}>
+                <TouchableOpacity style={styles.buttonStyle} onPress = {() => navigation.navigate('View Tickets')}>
                     <Text style={styles.buttonText}> View Tickets </Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.buttonStyle} onPress = {() => navigation.navigate('Sign Up')}>
+                <TouchableOpacity style={styles.buttonStyle} onPress = {() => navigation.navigate('Security Training')}>
                     <Text style={styles.buttonText}> Security Training </Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.buttonStyle} onPress = {() => navigation.navigate('Sign Up')}>
+                <TouchableOpacity style={styles.buttonStyle} onPress = {() => navigation.navigate('How To')}>
                     <Text style={styles.buttonText}> How To's </Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.buttonStyle} onPress = {() => navigation.navigate('Sign Up')}>
+                <TouchableOpacity style={styles.buttonStyle} onPress = {() => navigation.navigate('My Account')}>
                     <Text style={styles.buttonText}> My Account </Text>
                 </TouchableOpacity>
             </View> 
