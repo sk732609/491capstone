@@ -21,7 +21,7 @@ const SignIn = ({navigation})=>{
             <View style={styles.formView}>
               <TextInput placeholder={"Email Address*"} style={styles.TextInput}/>
               <TextInput placeholder={"Password*"} secureTextEntry={true} style={styles.TextInput}/>
-              <TouchableOpacity style={styles.buttonStyle} onPress = {() => navigation.navigate('Landing Page')}>
+              <TouchableOpacity style={styles.buttonStyle} onPress = {() => navigation.navigate('DrawerNav')}>
                 <Text style={styles.buttonText}>Sign In (Customer)</Text>
               </TouchableOpacity>
               <TouchableOpacity style={styles.buttonStyle}>
