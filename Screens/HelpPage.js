@@ -2,16 +2,18 @@ import React from "react";
 import {Text, View, StyleSheet, ScrollView, Image, TextInput, TouchableOpacity} from 'react-native';
 import BackIcon from 'react-native-vector-icons/Entypo';
 import Fold from 'react-native-vector-icons/AntDesign';
+import { NavigationContainer } from '@react-navigation/native';
+import DrawerApp from "../Navigation/Drawer";
 
 const HelpPage = ({navigation})=>{  
     return(
         <ScrollView style={styles.scrollView}>
-        <View style={styles.mainView}>
+          <View style={styles.mainView}>
             <View style = {styles.topView}>
-                <Fold style = {styles.menuImage} name = 'menu-fold' size = {40} />
+                <Fold style = {styles.menuImage} name = 'menu-fold' size = {40} onPress = {()=> navigation.toggleDrawer()}/>
                 <Image style={styles.imageStyle} source={require('../Assets/images/fb.png')}/>
             </View>
-            <View style = {styles.titleView}>
+            <View style = {styles.midView}>
                 <Text style = {styles.titleText}>Get Help Now</Text>
             </View>
             <View style={styles.bottomView}>
@@ -25,43 +27,42 @@ const HelpPage = ({navigation})=>{
                 </View>
             </View>
         </View>
+
         </ScrollView>
+
+        
     )
 }
 
 const styles = StyleSheet.create({
     mainView:{
-        marginTop: 30,
         flex:1,
         flexDirection:'column',
         justifyContent:'center',
         alignItems:'center'
       },
       topView:{
-        height: '15%',
-        width:'100%',
+        width:'90%',
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
-
+      },
+      midView:{
+       marginBottom: 20,
+      },
+      bottomView:{
+        width: '90%',
       },
       imageStyle:{
+        flex: 1,
+        height: 100,
         width: '90%',
-        resizeMode: 'contain',
-      },
-      titleView:{
-        heigh: '15%',
-        marginTop: 30,
+        resizeMode: 'center',
       },
       titleText:{
         fontSize: 45,
         fontWeight: 'bold'
-      },
-      bottomView:{
-        marginTop: 20,
-        height: '70%',
-        width: '90%',
       },
       TextInput:{
         borderWidth: 2,
@@ -77,13 +78,12 @@ const styles = StyleSheet.create({
         height: 50,
         backgroundColor: '#f05d22',
         borderRadius: 10,
-        marginTop:20,
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',   
       },
       buttonView:{
-        margin: 10,
+        margin: 20,
         flex:1,
         flexDirection:'column',
         justifyContent:'center',
