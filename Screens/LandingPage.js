@@ -90,6 +90,7 @@ const styles = StyleSheet.create({
     color: '#000',
   },
   buttonView: {
+    marginTop: 40,
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',

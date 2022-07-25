@@ -38,7 +38,7 @@ const SignUp = ({navigation})=>{
 
 const styles = StyleSheet.create({
   mainView:{
-    marginTop:20,
+    marginTop:30,
     flex:1,
     flexDirection:'column',
     justifyContent:'center',
