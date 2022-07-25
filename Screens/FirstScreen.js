@@ -1,14 +1,73 @@
-import React from "react";
+import React, {Component} from 'react';
 import {Text, View, StyleSheet, ScrollView, Image, TextInput, TouchableOpacity} from 'react-native';
 import '../Assets/images/topLogo.png';
 import '../Assets/images/Sheep.png';
 import '../Assets/images/Name.png';
-
-
-const SignIn = ({navigation})=>{
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 
+  export default class FirstScreen extends Component {
+
+    constructor(props){
+      super(props);
+      this.state = {
+        token: '',
+        loading: true,
+      
+    }
+
+    }
+
+    componentDidMount() {
+      this._retrieveData();
+    }
+
+    
+ 
+
+    _retrieveData = async () => {
+      const value = await AsyncStorage.getItem('token');
+      if (value !== null) {
+
+        var checkTokenAPIURL = 'http://njitmobileapp.navitend.co//checkToken.php';
+        var headers = {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        };
+        var Data = {
+          token: value,
+        };
+        fetch(checkTokenAPIURL, {
+          method: 'POST',
+          headers: headers,
+          body: JSON.stringify(Data),
+        })
+          .then(Response => Response.json())
+          .then(Response => {
+            if (Response[0].Message === 'Success') {
+              console.log ("Account found " + value);
+              this.props.navigation.navigate('DrawerNav');
+              this.setState({ loading: false });
+            } else {
+              console.log ("Account Not Found")
+              this.props.navigation.navigate('Sign In');
+              this.setState({ loading: false });
+            }
+          })
+          .catch(error => {
+            alert('Error' + error);
+          });
+      }else{
+        this.props.navigation.navigate('Sign In');
+      };
+    }
+    
+
+    render() {
+    if (this.state.loading) {
+      return null; //app is not ready (fake request is in process)
+    }
     return(
       <ScrollView style={styles.scrollView}>
         <View style={styles.mainView}>
@@ -18,23 +77,27 @@ const SignIn = ({navigation})=>{
           </View>
           <View style={styles.bottomView}>
             <View style={styles.formView}>
-              <TouchableOpacity style={styles.buttonStyle} onPress = {() => navigation.navigate('Sign In')}>
+              <TouchableOpacity style={styles.buttonStyle} onPress = {this._retrieveData}>
                 <Text style={styles.buttonText}>Sign In</Text>
               </TouchableOpacity>
-              <TouchableOpacity style={styles.buttonStyle}onPress = {() => navigation.navigate('Sign Up')}>
+              {/* <TouchableOpacity style={styles.buttonStyle}onPress = {() => this.props.navigation.navigate('Sign Up')}>
                 <Text style={styles.buttonText}>Sign up</Text>
-              </TouchableOpacity>
+              </TouchableOpacity> */}
             </View>
           
           </View>
         </View>
         </ScrollView>
-    )
-}
+    );
+
+    }
+  }
+
+
 
 const styles = StyleSheet.create({
     mainView:{
-      marginTop:20,
+      marginTop:50,
       flex:1,
       flexDirection:'column',
       justifyContent:'center',
@@ -42,7 +105,7 @@ const styles = StyleSheet.create({
     },
     topView:{
       width:'100%',
-      height: '70%',
+      //height: '70%',
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
@@ -53,7 +116,7 @@ const styles = StyleSheet.create({
     },
     bottomView:{
       width: '100%',
-      height: '30%',
+      //height: '30%',
       backgroundColor:'#f05d22',
       borderTopLeftRadius: 40,
       borderTopRightRadius: 40,
@@ -113,6 +176,4 @@ const styles = StyleSheet.create({
       alignItems: 'center',
       marginTop: 20,
     }
-
-  })
-export default SignIn
+  });
