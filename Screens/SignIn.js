@@ -11,23 +11,22 @@ import {
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import '../Assets/images/topLogo.png';
 
+// This is the sign in screen, and its main purpose is just that. The formatting does look a little off, but that also finds its origins in
+// The IT support side of the app which is now non existant. It was further altered when we discussed the Token login system. At this point
+// this page ONLY takes a token (which can be up to 100 characters long), and would pressumbly paste it in only once, the first time they use the app.
+
 export default class SignIn extends Component {
-  
   constructor(props) {
     super(props);
     this.state = {valueLog: ''};
   }
 
-  storeData = async () => {
-    try {
-      await AsyncStorage.setItem('token', this.state.valueLog);
-      console.log("set token");
-      this.props.navigation.navigate('DrawerNav', {screen: 'Home'});
+  // _retrieveData is going to be a function that appears on almost all of the screens. It basically just checks that the currently logged in user
+  // does in fact have an account in the system. Because of the asyncronous and persistant login, this is necessary to make sure that a user whom was
+  // removed from the database does not still have access. This is basically used before any fetch requests are made.
 
-    } catch (e) {
-      console.log(e);
-    }
-  };
+  // In this case, though, it is recieving the token for the first time, and we know this. If the token was already stored on the local device,
+  // they would have bypassed this page. The function is still used elsewhere.
 
   _retrieveData = async () => {
     var valueLog = this.state.valueLog;
@@ -58,8 +57,20 @@ export default class SignIn extends Component {
         .catch(error => {
           alert('Error' + error);
         });
-    }else{
-      alert ("Please fill in your token");
+    } else {
+      alert('Please fill in your token');
+    }
+  };
+
+
+  //storeData us called from within _retrieveData, and simply stores the token on the local device. It then sends the user onto the LandingPage
+  storeData = async () => {
+    try {
+      await AsyncStorage.setItem('token', this.state.valueLog);
+      console.log('set token');
+      this.props.navigation.navigate('DrawerNav', {screen: 'Home'});
+    } catch (e) {
+      console.log(e);
     }
   };
 
@@ -85,17 +96,11 @@ export default class SignIn extends Component {
                 onChangeText={valueLog => this.setState({valueLog})}
                 value={this.state.valueLog}
               />
-              <Text></Text>
               <TouchableOpacity
                 style={styles.buttonStyle}
                 onPress={this._retrieveData}>
-                <Text style={styles.buttonText}>Sign In (Customer)</Text>
+                <Text style={styles.buttonText}>Sign In</Text>
               </TouchableOpacity>
-               {/* <TouchableOpacity
-              style={styles.buttonStyle}
-              onPress= {this._retrieveData}>
-              <Text style={styles.buttonText}>test In (Customer)</Text>
-            </TouchableOpacity>  */}
             </View>
           </View>
         </View>
@@ -106,26 +111,27 @@ export default class SignIn extends Component {
 
 const styles = StyleSheet.create({
   mainView: {
-    //marginTop:20,
-    flex: 1,
+    //flex: 1,
     flexDirection: 'column',
-    justifyContent: 'center',
     alignItems: 'center',
   },
   topView: {
     width: '100%',
-    //height: '30%',
+    height: 250,
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
+    marginBottom: 40,
   },
   imageStyle: {
-    width: '80%',
+    flex: 1,
+    //height: 250,
     resizeMode: 'contain',
+    width: '95%',
+    height: '100%',
   },
   bottomView: {
     width: '100%',
-    height: '70%',
     backgroundColor: '#f05d22',
     borderTopLeftRadius: 40,
     borderTopRightRadius: 40,
@@ -142,7 +148,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    marginTop: 20,
+    marginBottom: 175,
   },
   TextInput: {
     width: '90%',
@@ -153,15 +159,18 @@ const styles = StyleSheet.create({
     color: '#000',
     fontWeight: 'bold',
     paddingLeft: 10,
-    marginTop: 20,
+    marginTop: 40,
   },
   buttonStyle: {
     width: '90%',
-    color: '#000',
+    color: '#fff',
     height: 50,
-    backgroundColor: '#000',
-    borderRadius: 10,
-    marginTop: 20,
+    backgroundColor: 'black',
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    borderBottomLeftRadius: 20,
+    borderBottomRightRadius: 20,
+    marginTop: 40,
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',

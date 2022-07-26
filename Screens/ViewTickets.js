@@ -39,14 +39,22 @@ export default class ViewTickets extends Component {
     };
   }
 
+  // This controls the switch and allows it to swap between functions when it is switched.
+
   toggleSwitch = value => {
     this.setState({switchValue: value});
     this.checkAccount();
   };
+
+  //Check account is called immediately after rendering, but through "toggleSwitch" can be called again to rerender info.
+  // both of these functions, however, immediately calls "checkAccount"
    componentDidMount() {
      this.checkAccount();
    }
 
+  // this is the SAME function. It checks that that local token is a token in the database.
+  // It does contain an important distinction, though. further on in the request, it checks the switchValue
+  // which we get from the toggleSwitch function, and user interaction, and then calls for "getTickets" or "GetTicketsAll"
   checkAccount = async () => {
     var token = await AsyncStorage.getItem('token');
     if (token == null) {
@@ -88,6 +96,7 @@ export default class ViewTickets extends Component {
     }
   };
 
+  // this is also the SAME function. It goes along with checkAccount and removes data/signs the user out if checkAccount fails.
   removeData = async () => {
     await AsyncStorage.removeItem('token');
     this.props.navigation.navigate('Sign In');
@@ -122,6 +131,10 @@ export default class ViewTickets extends Component {
         alert('Error1' + error);
       });
   };
+
+  // getTickets and getTicketsAll are essentially the same function, and serve the same purpose. they both retieve the tickets
+  // from the database, and then modify the data to be displayed approporiately. getTickets is called if the switch isn't switched,
+  // and only gets 'open' tickets, whereas getTicketsAll is called if the switch has been switched, and it gets all tickets (that match the token)
 
   getTicketsAll = async () => {
     console.log("in get tickets all")

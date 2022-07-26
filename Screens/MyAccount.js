@@ -21,6 +21,10 @@ import BackIcon from 'react-native-vector-icons/Entypo';
 import Unfold from 'react-native-vector-icons/AntDesign';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+// This screen displays all of the none important information that is stored within the Accounts database.
+// The user is able to change each of the entries, and update their own account. Because of the nature of this information
+// it doesn't actually matter what the update it to, it will not brick any of this app's functionality.
+
 export default class MyAccount extends Component {
   constructor(props) {
     super(props);
@@ -34,6 +38,8 @@ export default class MyAccount extends Component {
     };
   }
 
+  //This function is a modified "checkAccount" function. It checks that the local token is valid, and if it is
+  // it grabs the relevent information, and allows those information to appear within the textboxes that the user has access to.
   runSearch = async () => {
     var token = await AsyncStorage.getItem('token');
     var checkIdAPIURL = 'https://njitmobileapp.navitend.co//accountsearch.php';
@@ -65,6 +71,7 @@ export default class MyAccount extends Component {
           }
           else{
             alert('that account is not in our system');
+            this.removeData();
           }
       })
       .catch(error => {
@@ -73,46 +80,12 @@ export default class MyAccount extends Component {
   }
 
   componentDidMount() {
-    this.checkAccount();
+    this.runSearch();
   }
 
-  checkAccount = async () => {
-    var token = await AsyncStorage.getItem('token');
-    if (token == null) {
-      this.removeData();
-    } else if (token.length != 0) {
-      var checkTokenAPIURL = 'http://njitmobileapp.navitend.co//checkToken.php';
-      var headers = {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      };
-      var Data = {
-        token: token,
-      };
-      fetch(checkTokenAPIURL, {
-        method: 'POST',
-        headers: headers,
-        body: JSON.stringify(Data),
-      })
-        .then(Response => Response.json())
-        .then(Response => {
-          
-          if (Response[0].Message === 'Success') {
-            console.log('Account found ' + token);
-            this.runSearch();
-          } else {
-            alert('Account not in system');
-            this.removeData();
-          }
-        })
-        .catch(error => {
-          alert('Error3' + error);
-        });
-    } else {
-      alert('Please fill in your token');
-    }
-  };
-
+  // This is called when the user hits the button to update their information. It just takes whatever information was placed in the
+  // text boxes, and updates the relevent row in the Accounts table. It doesn't concern itself with if that data was already input or not.
+  // as said before, the modifications here are not all that consequential.
   updateAccount = async () => {
     var token = await AsyncStorage.getItem('token');
     var checkIdAPIURL = 'https://njitmobileapp.navitend.co//updateAccount.php';
@@ -290,3 +263,44 @@ const styles = StyleSheet.create({
     color: '#f05d22',
   },
 });
+
+
+//while this doesn't technically need to be here removing it is scary. I realized when annotating these screens, that runSearch 
+// was basically the same function. I've updated it some that it should work pefectly, but it still scares me. This remains.
+ 
+  // checkAccount = async () => {
+  //   var token = await AsyncStorage.getItem('token');
+  //   if (token == null) {
+  //     this.removeData();
+  //   } else if (token.length != 0) {
+  //     var checkTokenAPIURL = 'http://njitmobileapp.navitend.co//checkToken.php';
+  //     var headers = {
+  //       Accept: 'application/json',
+  //       'Content-Type': 'application/json',
+  //     };
+  //     var Data = {
+  //       token: token,
+  //     };
+  //     fetch(checkTokenAPIURL, {
+  //       method: 'POST',
+  //       headers: headers,
+  //       body: JSON.stringify(Data),
+  //     })
+  //       .then(Response => Response.json())
+  //       .then(Response => {
+          
+  //         if (Response[0].Message === 'Success') {
+  //           console.log('Account found ' + token);
+  //           this.runSearch();
+  //         } else {
+  //           alert('Account not in system');
+  //           this.removeData();
+  //         }
+  //       })
+  //       .catch(error => {
+  //         alert('Error3' + error);
+  //       });
+  //   } else {
+  //     alert('Please fill in your token');
+  //   }
+  // };

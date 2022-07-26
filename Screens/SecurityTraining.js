@@ -22,6 +22,11 @@ import BackIcon from 'react-native-vector-icons/Entypo';
 import Unfold from 'react-native-vector-icons/AntDesign';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+// This screen focuses on displayed the Security Trainings available to each of the users.
+// As it stands now, without the actual links, we weren't able to make this perfectly functional,
+// but this screen works really well as a proof of concept, and wouldn't be to hard to get it actually
+// pulling up the links that are provided. Most of the functions appearing on this scree have appeared before.
+
 export default class SecurityTraining extends Component {
   constructor(props) {
     super(props);
@@ -33,15 +38,22 @@ export default class SecurityTraining extends Component {
     };
   }
 
+  // This is a new one, and it handles getting the index/data from the button that was pressed.
+  // This would make it very easy to link to an external source, because it is already able to
+  // display the fake links we wrote out in the database. This is used within the table.
   _alertIndex(index) {
-    Alert.alert(`This is row ${index + 1}`,
-    `${this.state.tableData[index][1]}`);
+    Alert.alert(
+      `This is row ${index + 1}`,
+      `${this.state.tableData[index][1]}`,
+    );
   }
 
+  //called after first render
   componentDidMount() {
     this.checkAccount();
   }
 
+  //check if local token is in database
   checkAccount = async () => {
     var token = await AsyncStorage.getItem('token');
     if (token == null) {
@@ -78,10 +90,16 @@ export default class SecurityTraining extends Component {
     }
   };
 
+  //logs user out if local token not correct
   removeData = async () => {
     await AsyncStorage.removeItem('token');
     this.props.navigation.navigate('Sign In');
   };
+
+  // This is a simple function which calls a fetch request which just recieves all the rows of the Security_Tips table.
+  // This does mean security tips can be added or removed without a need to update the app.
+  // It is important to note that it modifies the JSON object that was recieved from the php file, and makes it into an array of arrays
+  // this is ONLY done bceause of the React-Native-Table-Component we opted to use.
 
   getSecurity = async () => {
     var token = await AsyncStorage.getItem('token');
@@ -145,19 +163,24 @@ export default class SecurityTraining extends Component {
 
           <View style={styles.bottomView}>
             <View style={styles.container}>
-              <Table style={styles.table} borderStyle={{borderWidth: 2, borderColor: '#c8e1ff'}}>
+              <Table
+                style={styles.table}
+                borderStyle={{borderWidth: 2, borderColor: '#c8e1ff'}}>
                 <Row
                   data={state.tableHead}
                   style={styles.head}
                   textStyle={styles.text}
-                  widthArr = {state.widthArr}
+                  widthArr={state.widthArr}
                 />
                 {state.tableData.map((rowData, index) => (
-                  <TableWrapper  key={index} style={styles.row} >
+                  <TableWrapper key={index} style={styles.row}>
                     {rowData.map((cellData, cellIndex) => (
-                      <Cell 
+                      <Cell
                         key={cellIndex}
-                        data={cellIndex === 1 ? element(cellData, index) : cellData}textStyle={styles.text} 
+                        data={
+                          cellIndex === 1 ? element(cellData, index) : cellData
+                        }
+                        textStyle={styles.text}
                       />
                     ))}
                   </TableWrapper>
@@ -205,11 +228,16 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     padding: 20,
   },
-  container: { flex: 1, padding: 16, paddingTop: 30, alignItems: 'center' },
-  head: { height: 40, backgroundColor: '#f1f8ff', alignText: 'center' },
-  text: { margin: 6, textAlign: 'center', color: '#3a4a35'},
-  row: { flexDirection: 'row', width: '90%',  },
-  btn: { width: 58, height: 18, backgroundColor: '#78B7BB',  borderRadius: 2, alignSelf: 'center' },
-  btnText: { textAlign: 'center', color: '#fff' }
-  
+  container: {flex: 1, padding: 16, paddingTop: 30, alignItems: 'center'},
+  head: {height: 40, backgroundColor: '#f1f8ff', alignText: 'center'},
+  text: {margin: 6, textAlign: 'center', color: '#3a4a35'},
+  row: {flexDirection: 'row', width: '90%'},
+  btn: {
+    width: 58,
+    height: 18,
+    backgroundColor: '#78B7BB',
+    borderRadius: 2,
+    alignSelf: 'center',
+  },
+  btnText: {textAlign: 'center', color: '#fff'},
 });

@@ -19,7 +19,7 @@ export default class DraerNav extends Component {
   removeData = async ()=>{
     console.log("it get's here");
     await AsyncStorage.removeItem('token');
-    this.props.navigation.navigate('Sign In');
+    this.props.navigation.navigate('First Screen');
   }
 
   logout = async () => {

@@ -2,6 +2,13 @@ import React from "react";
 import {Text, View, StyleSheet, ScrollView, Image, TextInput, TouchableOpacity} from 'react-native';
 import BackIcon from 'react-native-vector-icons/Entypo';
 
+// This page is dead, and should remain dead. It existed from a time when we were playing around with the idea
+// that the user would be creating their accounts. With the revelation that the account log in information would
+// be created by Navitend, and given the the user, this became entirely usless. its there though. I do wonder if
+// if there's anyway to get here naturally. I'm pretty sure there isn't.
+
+//Its not dangerous, though. It doesn't actually have the php/mySQL functionality. It doesn't do anything.
+
 const SignUp = ({navigation})=>{
 
   function navigate(){
