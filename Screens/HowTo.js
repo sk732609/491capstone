@@ -13,6 +13,10 @@ import BackIcon from 'react-native-vector-icons/Entypo';
 import Unfold from 'react-native-vector-icons/AntDesign';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+// This screen just displays whatever "How Tos" are available to the user.
+ 
+//This screen and its functions are basically the same as "Security Training". Go check that out if you need to.
+
 
 export default class HowTo extends Component{ 
   constructor(props) {
@@ -29,7 +33,6 @@ export default class HowTo extends Component{
     `${this.state.tableData[index][1]}`);
 
   }
-
 
   componentDidMount() {
     this.checkAccount();

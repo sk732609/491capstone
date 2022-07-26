@@ -5,69 +5,12 @@ import '../Assets/images/Sheep.png';
 import '../Assets/images/Name.png';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-
+  //This Screen is really simple. It contains the logo, and then a button to sign in. This page is more of an artifact than anything else,
+  // Previously we had considered including a IT Support Specialist login, which would have gone here, after talking to you, though,
+  // We scrapped that part. We're keeping it though. more sheep :)
 
   export default class FirstScreen extends Component {
-
-    constructor(props){
-      super(props);
-      this.state = {
-        token: '',
-        loading: true,
-      
-    }
-
-    }
-
-    componentDidMount() {
-      this._retrieveData();
-    }
-
-    
- 
-
-    _retrieveData = async () => {
-      const value = await AsyncStorage.getItem('token');
-      if (value !== null) {
-
-        var checkTokenAPIURL = 'http://njitmobileapp.navitend.co//checkToken.php';
-        var headers = {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        };
-        var Data = {
-          token: value,
-        };
-        fetch(checkTokenAPIURL, {
-          method: 'POST',
-          headers: headers,
-          body: JSON.stringify(Data),
-        })
-          .then(Response => Response.json())
-          .then(Response => {
-            if (Response[0].Message === 'Success') {
-              console.log ("Account found " + value);
-              this.props.navigation.navigate('DrawerNav');
-              this.setState({ loading: false });
-            } else {
-              console.log ("Account Not Found")
-              this.props.navigation.navigate('Sign In');
-              this.setState({ loading: false });
-            }
-          })
-          .catch(error => {
-            alert('Error' + error);
-          });
-      }else{
-        this.props.navigation.navigate('Sign In');
-      };
-    }
-    
-
     render() {
-    if (this.state.loading) {
-      return null; //app is not ready (fake request is in process)
-    }
     return(
       <ScrollView style={styles.scrollView}>
         <View style={styles.mainView}>
@@ -77,12 +20,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
           </View>
           <View style={styles.bottomView}>
             <View style={styles.formView}>
-              <TouchableOpacity style={styles.buttonStyle} onPress = {this._retrieveData}>
+              <TouchableOpacity style={styles.buttonStyle} onPress = {() =>this.props.navigation.navigate('Sign In')}>
                 <Text style={styles.buttonText}>Sign In</Text>
               </TouchableOpacity>
-              {/* <TouchableOpacity style={styles.buttonStyle}onPress = {() => this.props.navigation.navigate('Sign Up')}>
-                <Text style={styles.buttonText}>Sign up</Text>
-              </TouchableOpacity> */}
             </View>
           
           </View>
@@ -91,7 +31,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
     );
 
     }
-  }
+    }
 
 
 
@@ -116,7 +56,6 @@ const styles = StyleSheet.create({
     },
     bottomView:{
       width: '100%',
-      //height: '30%',
       backgroundColor:'#f05d22',
       borderTopLeftRadius: 40,
       borderTopRightRadius: 40,
@@ -135,8 +74,8 @@ const styles = StyleSheet.create({
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
-      marginTop: 10,
-      marginBottom: 20,
+      marginTop: 15,
+      marginBottom: 15,
     },
     TextInput:{
       width: '90%',
@@ -154,11 +93,14 @@ const styles = StyleSheet.create({
       color: '#000',
       height: 50,
       backgroundColor: '#000',
-      borderRadius: 10,
-      marginTop:20,
+      borderRadius: 5,
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
+      borderTopLeftRadius: 40,
+      borderTopRightRadius: 40,
+      borderBottomLeftRadius: 40,
+      borderBottomRightRadius: 40, 
     },
     buttonText:{
       fontSize: 18,
